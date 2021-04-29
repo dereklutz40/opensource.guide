@@ -1,0 +1,41 @@
+version: 2
+registries:
+  git-gitlab-com:
+    type: git
+    url: https://gitlab.com
+    username: "`x-access-token"
+    password: "${{secrets.GIT_GITLAB_COM_PASSWORD}}"
+  npm-registry-registry-npmjs-org:
+    type: npm-registry
+    url: https://registry.npmjs.org
+    username: "${{secrets.NPM_REGISTRY_REGISTRY_NPMJS_ORG_USERNAME}}"
+    password: "${{secrets.NPM_REGISTRY_REGISTRY_NPMJS_ORG_PASSWORD}}"
+
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
+  registries:
+  - npm-registry-registry-npmjs-org
+  - git-gitlab-com
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: html-proofer
+    versions:
+    - 3.18.5
+    - 3.18.6
+    - 3.18.8
+    - 3.19.0
+  - dependency-name: ffi
+    versions:
+    - 1.14.2
+  registries:
+  - git-gitlab-com
